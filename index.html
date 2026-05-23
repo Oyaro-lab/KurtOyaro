@@ -1,398 +1,884 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>The Boy Who Had to Become a Man Before Anyone Was Ready — Kurt Oyaro</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --ink: #0f0e0c;
-    --paper: #f5f0e8;
-    --accent: #b8320a;
-    --muted: #6b6559;
-    --rule: #c8bfb0;
-    --highlight: #e8dcc8;
-  }
+:root {
+  --night:    #0a0e1a;
+  --deep:     #0f1628;
+  --navy:     #151e35;
+  --gold:     #c9933a;
+  --gold2:    #e8b84b;
+  --gold3:    #f5d680;
+  --crimson:  #8b1a1a;
+  --red:      #c0392b;
+  --ivory:    #f0e8d0;
+  --muted:    #8a9ab5;
+  --pale:     #c8d4e8;
+  --white:    #ffffff;
+  --ink:      #1a1a2e;
+}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Source Serif 4', Georgia, serif;
-    font-size: 19px;
-    line-height: 1.9;
-    min-height: 100vh;
-  }
+html { scroll-behavior: smooth; }
 
-  .container {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 4rem 2rem 7rem;
-  }
+body {
+  background: var(--night);
+  color: var(--ivory);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 19px;
+  line-height: 1.85;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: default;
+}
 
-  .label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 700;
-    display: inline-block;
-    border-top: 2px solid var(--accent);
-    padding-top: 0.4rem;
-    margin-bottom: 1.8rem;
-  }
+/* ── STARFIELD ─────────────────────────────────────────────────── */
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
+}
+@keyframes twinkle {
+  from { opacity: var(--a1, 0.1); transform: scale(1); }
+  to   { opacity: var(--a2, 0.7); transform: scale(1.3); }
+}
 
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 900;
-    line-height: 1.12;
-    letter-spacing: -0.02em;
-    margin-bottom: 1rem;
-  }
+/* ── HERO ───────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  overflow: hidden;
+  z-index: 1;
+}
 
-  h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,147,58,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(139,26,26,0.12) 0%, transparent 60%),
+    linear-gradient(180deg, #0a0e1a 0%, #0d1220 50%, #0a0e1a 100%);
+  z-index: 0;
+}
 
-  .deck {
-    font-size: 1.1rem;
-    font-weight: 300;
-    font-style: italic;
-    color: var(--muted);
-    border-left: 3px solid var(--accent);
-    padding-left: 1.2rem;
-    margin-bottom: 2rem;
-    line-height: 1.65;
-  }
+/* Moon */
+.moon {
+  position: absolute;
+  top: 8%;
+  right: 12%;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f5e6b0, #d4a843 60%, #8b6914);
+  box-shadow:
+    0 0 40px rgba(212,168,67,0.4),
+    0 0 80px rgba(212,168,67,0.2),
+    0 0 120px rgba(212,168,67,0.1);
+  animation: moonGlow 4s ease-in-out infinite alternate;
+  z-index: 1;
+}
+.moon::after {
+  content: '';
+  position: absolute;
+  top: 12%;
+  left: 20%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.15);
+  box-shadow: 25px 8px 0 rgba(0,0,0,0.1), 40px 30px 0 rgba(0,0,0,0.08);
+}
+@keyframes moonGlow {
+  from { box-shadow: 0 0 40px rgba(212,168,67,0.4), 0 0 80px rgba(212,168,67,0.2); }
+  to   { box-shadow: 0 0 60px rgba(212,168,67,0.6), 0 0 120px rgba(212,168,67,0.3); }
+}
 
-  .byline {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--rule);
-  }
+/* Mountain silhouette */
+.mountains {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  z-index: 1;
+}
 
-  p {
-    margin-bottom: 1.65rem;
-    font-weight: 300;
-  }
+/* Samurai SVG hero */
+.samurai-hero {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 380px;
+  z-index: 2;
+  opacity: 0.85;
+  animation: samuraiReveal 2s ease both;
+}
+@keyframes samuraiReveal {
+  from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+  to   { opacity: 0.85; transform: translateX(-50%) translateY(0); }
+}
 
-  p strong {
-    font-weight: 700;
-    color: var(--ink);
-  }
+/* Cherry blossoms */
+.petal {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50% 0 50% 0;
+  background: rgba(255,182,193,0.6);
+  animation: fall var(--fd, 8s) linear var(--fdelay, 0s) infinite;
+  z-index: 2;
+}
+@keyframes fall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(100vh) rotate(720deg) translateX(80px); opacity: 0; }
+}
 
-  h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.45rem;
-    font-weight: 700;
-    margin: 3.2rem 0 1rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--rule);
-    color: var(--ink);
-  }
+.hero-content {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 14rem;
+}
 
-  .drop-cap::first-letter {
-    font-family: 'Playfair Display', serif;
-    font-size: 4.5rem;
-    font-weight: 900;
-    float: left;
-    line-height: 0.75;
-    padding-right: 0.12em;
-    padding-top: 0.1em;
-    color: var(--accent);
-  }
+.hero-kana {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  opacity: 0.8;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 1s ease 0.2s both;
+}
 
-  .pull {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.35rem;
-    font-style: italic;
-    font-weight: 700;
-    line-height: 1.4;
-    border-top: 3px solid var(--ink);
-    border-bottom: 1px solid var(--rule);
-    padding: 1.4rem 0;
-    margin: 2.8rem 0;
-    color: var(--ink);
-  }
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.8rem;
+  animation: fadeUp 1s ease 0.4s both;
+}
 
-  .inset {
-    background: var(--highlight);
-    border-left: 4px solid var(--accent);
-    padding: 1.4rem 1.8rem;
-    margin: 2.5rem 0;
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: var(--ink);
-    font-weight: 300;
-  }
+.hero-title .line1 { color: var(--ivory); display: block; }
+.hero-title .line2 {
+  color: var(--gold2);
+  font-style: italic;
+  font-size: 0.85em;
+  display: block;
+}
 
-  .inset strong {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    display: block;
-    margin-bottom: 0.5rem;
-  }
+.hero-deck {
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--muted);
+  max-width: 560px;
+  margin: 1.2rem auto 0;
+  line-height: 1.65;
+  animation: fadeUp 1s ease 0.6s both;
+}
 
-  .closing {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    margin-top: 4rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--rule);
-    letter-spacing: 0.08em;
-    line-height: 1.8;
-  }
+.hero-byline {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-top: 1.5rem;
+  animation: fadeUp 1s ease 0.8s both;
+}
 
-  .section-mark {
-    text-align: center;
-    color: var(--accent);
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    letter-spacing: 0.4em;
-    margin: 3rem 0;
-  }
+/* Gold divider */
+.gold-line {
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold2), transparent);
+  margin: 1.2rem auto;
+  animation: fadeUp 1s ease 0.7s both;
+}
 
-  @media (max-width: 600px) {
-    .container { padding: 2rem 1.2rem 4rem; }
-    h1 { font-size: 1.9rem; }
-  }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Scroll cue */
+.scroll-cue {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  animation: fadeUp 1s ease 1.4s both;
+}
+.scroll-cue span {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.scroll-arrow {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ── MAIN CONTENT ───────────────────────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 5;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 5rem 2rem 8rem;
+}
+
+/* Section with side brush art */
+.section-wrap {
+  position: relative;
+  margin-bottom: 5rem;
+}
+
+.section-art {
+  position: absolute;
+  right: -120px;
+  top: 0;
+  width: 100px;
+  opacity: 0.12;
+  pointer-events: none;
+}
+.section-art.left {
+  right: auto;
+  left: -120px;
+}
+
+/* Section heading */
+h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--gold2);
+  margin-bottom: 1.4rem;
+  padding-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 4rem;
+  border-top: 1px solid rgba(201,147,58,0.2);
+}
+
+h2::before {
+  content: '';
+  display: inline-block;
+  width: 32px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  flex-shrink: 0;
+}
+
+h2 .kana {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  margin-left: auto;
+  opacity: 0.7;
+}
+
+/* Body text */
+p {
+  color: var(--ivory);
+  font-weight: 300;
+  margin-bottom: 1.6rem;
+  font-size: 1.02rem;
+}
+
+p strong {
+  color: var(--gold3);
+  font-weight: 600;
+}
+
+/* Drop cap */
+.drop-cap::first-letter {
+  font-family: 'Cinzel', serif;
+  font-size: 5rem;
+  font-weight: 900;
+  float: left;
+  line-height: 0.72;
+  padding-right: 0.1em;
+  padding-top: 0.08em;
+  color: var(--gold2);
+  text-shadow: 0 0 30px rgba(232,184,75,0.4);
+}
+
+/* Pull quote */
+.pull {
+  position: relative;
+  margin: 3rem 0;
+  padding: 2rem 2.5rem;
+  border-left: 3px solid var(--gold);
+  background: linear-gradient(135deg, rgba(201,147,58,0.06) 0%, rgba(201,147,58,0.02) 100%);
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--gold3);
+  line-height: 1.5;
+}
+.pull::before {
+  content: '\300C';
+  position: absolute;
+  top: -0.5rem;
+  left: 0.8rem;
+  font-size: 4rem;
+  color: var(--gold);
+  opacity: 0.3;
+  font-family: 'Noto Serif JP', serif;
+  line-height: 1;
+}
+
+/* Inset block */
+.inset {
+  background: rgba(15,22,40,0.8);
+  border: 1px solid rgba(201,147,58,0.3);
+  border-left: 4px solid var(--gold);
+  padding: 1.6rem 2rem;
+  margin: 2.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+.inset::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(201,147,58,0.1), transparent);
+}
+.inset-label {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+.inset p {
+  font-style: italic;
+  color: var(--pale);
+  margin-bottom: 0;
+  font-size: 0.97rem;
+}
+
+/* Dark emphasis box */
+.dark-box {
+  background: linear-gradient(135deg, rgba(139,26,26,0.2), rgba(10,14,26,0.9));
+  border: 1px solid rgba(192,57,43,0.4);
+  padding: 2rem;
+  margin: 2.5rem 0;
+  text-align: center;
+}
+.dark-box p {
+  color: var(--ivory);
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 0;
+}
+
+/* Horizontal divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 3.5rem 0;
+  opacity: 0.5;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.divider::after {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.divider-sym {
+  font-family: 'Noto Serif JP', serif;
+  color: var(--gold2);
+  font-size: 1rem;
+}
+
+/* Floating samurai ornament */
+.ornament {
+  text-align: center;
+  margin: 2rem 0;
+  opacity: 0.4;
+}
+
+/* CLOSING */
+.closing-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  position: relative;
+}
+.closing-kanji {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 5rem;
+  color: var(--gold);
+  opacity: 0.15;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  line-height: 1;
+}
+.closing-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  color: var(--gold2);
+  font-style: italic;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.closing-body {
+  color: var(--pale);
+  font-style: italic;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  position: relative;
+}
+.closing-meta {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--muted);
+  text-transform: uppercase;
+  line-height: 2;
+  position: relative;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* responsive */
+@media (max-width: 700px) {
+  .section-art { display: none; }
+  .content { padding: 3rem 1.4rem 6rem; }
+  .hero-title { font-size: 1.9rem; }
+  .samurai-hero { width: 200px; height: 280px; }
+  .moon { width: 70px; height: 70px; }
+}
 </style>
 </head>
 <body>
-<div class="container">
 
-  <span class="label">Personal Essay &middot; 2026</span>
+<!-- Stars -->
+<div class="stars" id="stars"></div>
 
-  <h1>The Boy Who Had to Become a Man<br/><em>Before Anyone Was Ready</em></h1>
+<!-- ── HERO ─────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="moon"></div>
 
-  <p class="deck">A story about what happens when the people who are supposed to stay leave first, and what a young man builds from the rubble when nobody is watching.</p>
+  <!-- Petals -->
+  <div id="petals"></div>
 
-  <div class="byline">By Kurt Oyaro &middot; Age 22 &middot; Nairobi, Kenya</div>
+  <!-- Mountains SVG -->
+  <svg class="mountains" viewBox="0 0 1440 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="0,300 200,80 380,200 560,40 720,160 900,20 1100,140 1280,60 1440,120 1440,300" fill="#0d1220" opacity="0.9"/>
+    <polygon points="0,300 150,140 300,220 500,100 680,200 860,80 1050,180 1200,100 1440,160 1440,300" fill="#0a0e1a" opacity="0.95"/>
+    <!-- Pine trees on ridge -->
+    <g fill="#0f1628" opacity="0.8">
+      <polygon points="860,80 853,110 867,110"/>
+      <polygon points="870,85 863,115 877,115"/>
+      <polygon points="880,78 873,108 887,108"/>
+      <polygon points="900,82 893,112 907,112"/>
+      <polygon points="840,90 833,120 847,120"/>
+    </g>
+  </svg>
 
-  <p class="drop-cap">There is a specific kind of growing up that does not get talked about much. Not because it is rare but because the people who go through it are usually too busy surviving it to stop and describe it. It is the kind where the ground shifts before you are old enough to understand what ground even means. Where the people whose job it was to stay are the first ones to go. Where you learn very early, before anyone should have to learn it, that love is conditional, that presence is negotiable, and that the safest version of yourself is the one that needs the least.</p>
+  <!-- Samurai SVG figure -->
+  <svg class="samurai-hero" viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg">
+    <!-- Glow behind figure -->
+    <ellipse cx="140" cy="300" rx="80" ry="20" fill="rgba(201,147,58,0.15)"/>
+    <!-- Hakama/robe lower -->
+    <path d="M100,200 Q90,280 85,370 L195,370 Q190,280 180,200 Z" fill="#1a1428" stroke="rgba(201,147,58,0.4)" stroke-width="1"/>
+    <!-- Robe layers -->
+    <path d="M105,160 Q80,200 75,250 Q95,240 110,260 L110,200 Z" fill="#0d1220" stroke="rgba(201,147,58,0.3)" stroke-width="0.8"/>
+    <path d="M175,160 Q200,200 205,250 Q185,240 170,260 L170,200 Z" fill="#0d1220" stroke="rgba(201,147,58,0.3)" stroke-width="0.8"/>
+    <!-- Body/torso kimono -->
+    <path d="M108,130 Q100,160 100,200 L180,200 Q180,160 172,130 Z" fill="#161028" stroke="rgba(201,147,58,0.5)" stroke-width="1"/>
+    <!-- Kimono collar detail -->
+    <path d="M130,130 L140,175 L150,130" fill="none" stroke="rgba(201,147,58,0.6)" stroke-width="1.5"/>
+    <!-- Obi/belt -->
+    <rect x="105" y="185" width="70" height="18" rx="2" fill="#8b1a1a" stroke="rgba(201,147,58,0.5)" stroke-width="0.8"/>
+    <!-- Shoulders/armor -->
+    <path d="M90,135 Q75,125 80,110 Q95,120 108,130 Z" fill="#1e1835" stroke="rgba(201,147,58,0.4)" stroke-width="0.8"/>
+    <path d="M190,135 Q205,125 200,110 Q185,120 172,130 Z" fill="#1e1835" stroke="rgba(201,147,58,0.4)" stroke-width="0.8"/>
+    <!-- Neck -->
+    <rect x="132" y="100" width="16" height="32" rx="4" fill="#2a1f1a"/>
+    <!-- Head -->
+    <ellipse cx="140" cy="88" rx="26" ry="28" fill="#2a1f1a"/>
+    <!-- Topknot/Chonmage -->
+    <ellipse cx="140" cy="64" rx="8" ry="5" fill="#1a1428"/>
+    <rect x="137" y="60" width="6" height="18" rx="3" fill="#1a1428"/>
+    <!-- Face features -->
+    <ellipse cx="132" cy="88" rx="3" ry="3.5" fill="#0a0e1a" opacity="0.8"/>
+    <ellipse cx="148" cy="88" rx="3" ry="3.5" fill="#0a0e1a" opacity="0.8"/>
+    <!-- Gold eye glint -->
+    <circle cx="133" cy="87" r="1" fill="rgba(201,147,58,0.8)"/>
+    <circle cx="149" cy="87" r="1" fill="rgba(201,147,58,0.8)"/>
+    <!-- Katana held at side -->
+    <line x1="185" y1="100" x2="220" y2="300" stroke="rgba(201,147,58,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Katana guard -->
+    <ellipse cx="197" cy="148" rx="8" ry="4" fill="rgba(201,147,58,0.6)" transform="rotate(-65,197,148)"/>
+    <!-- Katana handle -->
+    <line x1="185" y1="100" x2="178" y2="125" stroke="#8b6914" stroke-width="5" stroke-linecap="round"/>
+    <!-- Scabbard -->
+    <line x1="165" y1="195" x2="175" y2="310" stroke="#2a1428" stroke-width="5" stroke-linecap="round"/>
+    <!-- Kimono pattern lines -->
+    <path d="M112,150 Q120,170 115,190" fill="none" stroke="rgba(201,147,58,0.2)" stroke-width="0.8"/>
+    <path d="M168,150 Q160,170 165,190" fill="none" stroke="rgba(201,147,58,0.2)" stroke-width="0.8"/>
+    <!-- Shadow on ground -->
+    <ellipse cx="140" cy="372" rx="55" ry="5" fill="rgba(0,0,0,0.5)"/>
+    <!-- Gold trim on robe hem -->
+    <path d="M85,370 Q140,360 195,370" fill="none" stroke="rgba(201,147,58,0.5)" stroke-width="1"/>
+    <!-- Floating petals near figure -->
+    <circle cx="70" cy="200" r="4" fill="rgba(255,182,193,0.4)"/>
+    <circle cx="210" cy="230" r="3" fill="rgba(255,182,193,0.3)"/>
+    <circle cx="55" cy="280" r="3" fill="rgba(255,182,193,0.35)"/>
+  </svg>
 
-  <p>This is a story about that kind of growing up. It is also a story about what happens on the other side of it, years later, when a 22 year old sits alone and starts to understand why he thinks the way he thinks, why he struggles the way he struggles, and why none of it was an accident.</p>
-
-  <p>This is Kurt's story. It might also be yours.</p>
-
-  <h2>When the First Person Leaves</h2>
-
-  <p>There is a Kenyan proverb that says a child who is not embraced by the village will burn it down to feel its warmth. It is usually quoted as a warning about community responsibility. But it begins with something smaller and more specific: a child who is not embraced. Before the village. Before the burning. There is just a child, looking for warmth in the most basic place a child looks first.</p>
-
-  <p>Their mother.</p>
-
-  <p>Kurt's mother made a choice. Not an unusual choice in the landscape of modern Kenyan families, but a devastating one in the specific way that only a child at the center of it can fully feel. She chose a new relationship. A new path. And in doing so, she signaled, not always in words but in the way that signals land deeper than words, that a grown male child did not fit into the picture she was building for herself.</p>
-
-  <p>Some people who hear this story do not believe it. They ask if she was really his mother. They ask this because we have built a cultural story around motherhood that treats it as an unconditional biological fact rather than a practiced daily choice. We tell ourselves that mothers always stay. That whatever else happens, a mother does not choose a man over her child. The story is comforting. It is also, for a significant number of people, simply not true.</p>
-
-  <p>What that moment deposits in a child is not anger, at least not first. It is a question. And the question is not why did she leave. The question, the one that sits deepest and takes the longest to name, is what is wrong with me that made leaving easier than staying.</p>
-
-  <p>That question does not announce itself. It does not arrive as a thought you can examine. It arrives as a way of moving through the world. A slight withdrawal before connection. A tendency to give before being asked, as though giving enough might prevent the leaving. A habit of reading rooms before entering them, of understanding situations fully before committing to them, of never being wrong in public because being wrong feels like one more reason for someone to go.</p>
-
-  <div class="pull">
-    The question that sits deepest is not why did she leave. It is what is wrong with me that made leaving easier than staying.
+  <div class="hero-content">
+    <div class="hero-kana">剣  ·  知恵  ·  孤独  ·  道</div>
+    <h1 class="hero-title">
+      <span class="line1">The Boy Who Had to Become a Man</span>
+      <span class="line2">Before Anyone Was Ready</span>
+    </h1>
+    <div class="gold-line"></div>
+    <p class="hero-deck">A story about what happens when the people who are supposed to stay leave first, and what a young man builds from the rubble when nobody is watching.</p>
+    <div class="hero-byline">Kurt Oyaro &nbsp;&middot;&nbsp; Age 22 &nbsp;&middot;&nbsp; Nairobi, Kenya &nbsp;&middot;&nbsp; 2026</div>
   </div>
 
-  <h2>The Father in the Single Room</h2>
+  <div class="scroll-cue">
+    <span>Begin</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
 
-  <p>While Kurt was trying to make sense of his mother's exit, his father was making sense of his own.</p>
+<!-- ── ARTICLE BODY ───────────────────────────────────────────────── -->
+<main class="content">
 
-  <p>His mother had been the breadwinner. When she left, she took the financial stability with her and his father, now alone, found himself in a single room. Not a metaphor. An actual single room, the kind that costs less than dignity and more than pride. The kind that a man moves into when everything he built has been redistributed and he is starting from the floor.</p>
-
-  <p>This matters for a reason that goes beyond the obvious. Kurt grew up watching what happens to a man who does everything he was supposed to do and still ends up with nothing to show for it. He watched a good man in a bad situation. He watched the machinery of what happens after a marriage ends and a woman moves on and a man is left holding the structural wreckage.</p>
-
-  <p>There is something that happens to a boy who watches this. He does not become bitter about women necessarily. He becomes careful. He starts doing the math before anyone told him math was the relevant skill. He starts asking about incentives and structures and what actually motivates people underneath the story they tell about themselves.</p>
-
-  <p>His father took him in. That fact is worth sitting with for a moment. The man with the least, the man in the single room, the man who had just had his life rearranged, made space. That is not a small thing. That is the most important data point in Kurt's life about what men are actually like when the cameras are off and the stakes are real.</p>
-
-  <h2>The Year the Ground Stayed Hard</h2>
-
-  <p>2022. Kurt defers his first year of university. The reason is simple and brutal: he cannot afford the fees.</p>
-
-  <p>Most of his age mates, the ones who would later sit next to him in lecture halls and debate ideas over coffee, spent that year in transition. Moving from high school to campus life. Adjusting to freedom. Making new friends. Figuring out who they were going to be now that nobody was watching.</p>
-
-  <p>Kurt spent that year doing something different.</p>
-
-  <p>Mjengo. Construction sites. The kind of work where you show up before sunrise and your body tells you about it for days after. Manual labour is a particular kind of education that no university offers. It teaches you the weight of things, literally. It teaches you the gap between people who use their hands and people who use their minds and how that gap is priced by the world. It teaches you that most of the people whose labour holds everything together are invisible in every conversation about how the country works.</p>
-
-  <p>Then Kakamega. Gold mining. Another education entirely. There is something about searching for something valuable in hard ground that changes how you think about effort and reward. Most of what you dig is not gold. Most of what you sift is not what you came for. The work continues anyway. You learn to separate what is precious from what merely looks like it could be.</p>
-
-  <p>That skill, the ability to look at something and see what it actually is rather than what it presents itself as, would become one of the most defining features of how Kurt thinks. But at the time it was just survival. Just Tuesday.</p>
-
-  <div class="pull">
-    There is a side of people you see more clearly when you are poor or when you are not beautiful. Transactions become visible. Motives surface faster. People stop performing for you.
+  <!-- Opening -->
+  <div class="section-wrap reveal">
+    <p class="drop-cap">There is a specific kind of growing up that does not get talked about much. Not because it is rare but because the people who go through it are usually too busy surviving it to stop and describe it. It is the kind where the ground shifts before you are old enough to understand what ground even means. Where the people whose job it was to stay are the first ones to go. Where you learn very early, before anyone should have to learn it, that love is conditional, that presence is negotiable, and that the safest version of yourself is the one that needs the least.</p>
+    <p>This is a story about that kind of growing up. It is also a story about what happens on the other side of it, years later, when a 22 year old sits alone and starts to understand why he thinks the way he thinks, why he struggles the way he struggles, and why none of it was an accident.</p>
+    <p>This is Kurt's story. It might also be yours.</p>
   </div>
 
-  <p>That year taught him something about people that is difficult to learn any other way. When you have nothing to offer that someone wants, when you are not beautiful or wealthy or connected or entertaining, people stop managing their behavior around you. The performance drops. You see what is actually there.</p>
+  <div class="divider"><span class="divider-sym">剣</span></div>
 
-  <p>What Kurt saw was that most human interaction runs on self interest. Not in a cynical way. Just in a plain factual way. People are mostly trying to get something. Love, approval, money, status, comfort, connection. Every relationship has an economy underneath it, an exchange of something for something. The people who pretend otherwise are either very lucky or not paying attention.</p>
+  <!-- Section 1 -->
+  <div class="section-wrap reveal">
+    <h2>When the First Person Leaves <span class="kana">第一の離別</span></h2>
 
-  <p>This is not bitterness. This is literacy. And it is the kind of literacy that only comes from being on the wrong side of the transaction long enough to see it clearly.</p>
+    <!-- Ink brush warrior ornament right -->
+    <svg class="section-art" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50,10 Q30,50 35,100 Q40,150 50,190" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M50,10 Q70,50 65,100 Q60,150 50,190" stroke="white" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <circle cx="50" cy="10" r="5" fill="white" opacity="0.6"/>
+      <path d="M35,80 Q50,70 65,80" stroke="white" stroke-width="1.5" fill="none" opacity="0.7"/>
+    </svg>
 
-  <h2>What Poverty Actually Teaches</h2>
+    <p>There is a Kenyan proverb that says a child who is not embraced by the village will burn it down to feel its warmth. It is usually quoted as a warning about community responsibility. But it begins with something smaller and more specific: a child who is not embraced. Before the village. Before the burning. There is just a child, looking for warmth in the most basic place a child looks first.</p>
+    <p>Their mother.</p>
+    <p>Kurt's mother made a choice. Not an unusual choice in the landscape of modern Kenyan families, but a devastating one in the specific way that only a child at the center of it can fully feel. She chose a new relationship. A new path. And in doing so, she signaled, not always in words but in the way that signals land deeper than words, that a grown male child did not fit into the picture she was building for herself.</p>
+    <p>Some people who hear this story do not believe it. They ask if she was really his mother. They ask this because we have built a cultural story around motherhood that treats it as an unconditional biological fact rather than a practiced daily choice. We tell ourselves that mothers always stay. The story is comforting. It is also, for a significant number of people, simply not true.</p>
+    <p>What that moment deposits in a child is not anger, at least not first. It is a question. And the question is not why did she leave. The question, the one that sits deepest and takes the longest to name, is what is wrong with me that made leaving easier than staying.</p>
 
-  <p>There is a popular counter-argument to everything described above. It usually comes from people with good intentions and it goes something like this: many people come from difficult backgrounds and do not develop the kind of analytical detachment you are describing. Plenty of people from hard beginnings become warm, trusting, open. So the difficult childhood does not explain the particular way this person turned out. There must be something else.</p>
-
-  <p>This is true and it is also missing the point.</p>
-
-  <p>Difficult experiences do not produce the same person in everyone. They produce different adaptations depending on what the person was working with to begin with. Someone with a naturally relational temperament might respond to early abandonment by clinging harder to connection, by becoming the person who needs people most. Someone with a naturally analytical temperament, someone whose default mode is already to observe and understand before engaging, will respond by going deeper into the observation. By turning the analysis inward and outward simultaneously. By building a mind that can explain what just happened so that it never happens the same way again.</p>
-
-  <p>Kurt is the second kind.</p>
-
-  <p>The poverty, the mjengo, the gold mining, the year of deferment, they did not break him. They enrolled him in a curriculum that most people his age have not taken. The subject was reality. The lessons were about what people actually do when the social contract is thin and the stakes are personal. He passed. Not easily. But he passed.</p>
-
-  <p>And he arrived at university carrying something most of his classmates did not have. Not bitterness. Not damage, at least not only damage. A way of seeing. A habit of looking underneath the surface of things for the structure that produces them. A discomfort with explanations that stop at the level of feeling rather than following the logic all the way down.</p>
-
-  <h2>The University That Was Supposed to Be the Reward</h2>
-
-  <p>JKUAT. Third year. BSc Corporate Communication and Management. By every measurable standard, things are better. There is a roof. There are lectures. There is a future that has a shape, however uncertain.</p>
-
-  <p>But something does not quite fit.</p>
-
-  <p>The social environment of campus runs on a particular currency. Belonging. Shared experience. The ability to exist in a group without demanding too much of it. To laugh at the right moments. To agree enough that people feel comfortable. To be, in the language of the campus, a vibe.</p>
-
-  <p>Kurt is not a vibe. He is something harder to categorise and harder to be around casually. He is the person who follows the logic three steps further than anyone asked him to. Who cannot hear an argument without testing whether it holds. Who finds the gap between what the research says and what the street shows and cannot pretend the gap is not there once he has seen it.</p>
-
-  <p>In the right environment, this is a gift. In a campus social circle optimised for belonging and surface level connection, it is a form of friction.</p>
-
-  <p>He joined a leadership community. Showed up consistently. Did the unglamorous work, the setup, the setdown, the reliable muscle behind the scenes. Spent a year contributing 70 percent of the operational work. Walked away feeling under-appreciated and unrecognised, with colleagues who never became friends despite sharing a year of proximity.</p>
-
-  <p>The pattern will be familiar by now.</p>
-
-  <p>He gives fully. The giving lands. The person giving does not.</p>
-
-  <h2>The Pattern Underneath the Pattern</h2>
-
-  <p>Here is what trauma does that nobody explains clearly enough.</p>
-
-  <p>It does not just hurt you. It teaches you. And what it teaches you is a set of rules that were accurate in the environment where the trauma happened. Rules like: needing things is dangerous. Showing vulnerability gives people something to use. The safest way to stay connected is to be useful, because usefulness is harder to withdraw from than love. Give before you are asked, because waiting to be asked means risking not receiving. Hold back the fullness of who you are, because the fullness has been too much before.</p>
-
-  <p>These rules kept a younger Kurt safe in situations that genuinely required them. A home where a mother was already emotionally elsewhere. A world where money was scarce and transactions were visible. Environments where being too much meant being left.</p>
-
-  <p>The problem is that rules learned in one environment do not automatically update when the environment changes. You carry them into university. Into friendships. Into every room where you are trying to figure out whether it is safe to be fully present. The rules say: observe first. Commit slowly. Be useful before being known. Hold the real self back until there is enough evidence that it will be received.</p>
-
-  <p>And people experience that held-back version of you as self sufficiency. As someone who does not need much. As the capable, contained, analytical person who has it together. They file you under the personality type that matches the output rather than the interior.</p>
-
-  <p>Meanwhile the interior is something quite different. Type 2. The helper. The person who wants deeply to be known and valued, who gives generously from that wanting, who hopes that the quality of the giving will eventually prompt someone to look past it and ask about the giver.</p>
-
-  <p>The irony is almost mathematical. The very adaptations that protected him from being abandoned produce a presentation that makes genuine connection harder to find. The armor works so well that even the people who might have stayed cannot find the door.</p>
-
-  <div class="pull">
-    The rules that kept you safe in the old environment do not automatically update when the environment changes. You carry them into every new room, looking for evidence that this one is different.
+    <div class="pull">
+      The question that sits deepest is not why did she leave. It is what is wrong with me that made leaving easier than staying.
+    </div>
   </div>
 
-  <h2>Why He Thinks the Way He Thinks</h2>
+  <!-- Section 2 -->
+  <div class="section-wrap reveal">
+    <h2>The Father in the Single Room <span class="kana">父の間</span></h2>
 
-  <p>This is the part that surprises people. The part that makes them say ChatGPT when they cannot counter the argument. The part that produces labels like red-pilled and brainwashed when the logic goes somewhere that makes the room uncomfortable.</p>
+    <svg class="section-art left" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Torii gate silhouette -->
+      <rect x="10" y="60" width="80" height="6" rx="2" fill="white" opacity="0.7"/>
+      <rect x="5" y="50" width="90" height="5" rx="2" fill="white" opacity="0.5"/>
+      <rect x="20" y="66" width="8" height="120" rx="2" fill="white" opacity="0.6"/>
+      <rect x="72" y="66" width="8" height="120" rx="2" fill="white" opacity="0.6"/>
+    </svg>
 
-  <p>Kurt thinks in systems because systems are what he had to learn to read to survive. When you grow up in environments where the official story and the actual story are consistently different, you develop the capacity to see underneath the official story. When you watch a good man end up in a single room after doing everything right, you start asking what the structure was that produced that outcome rather than just accepting the surface explanation. When you spend a year doing manual labour alongside men whose stories the economy has decided do not matter, you develop a specific skepticism about which narratives get amplified and which get buried and why.</p>
-
-  <p>This is not ideology. It is pattern recognition trained by lived experience. The difference between someone who read about poverty and someone who spent a year in it is the difference between a map and a terrain. The map can be very accurate. The terrain leaves marks on your feet.</p>
-
-  <p>When he argues that most men are romantics who give everything and lose everything through no fault of their own, he is not speaking abstractly. He watched it. In a single room. In his father's face.</p>
-
-  <p>When he argues that risk management applied to marriage is not fear but seriousness, he is not drawing from an internet forum. He is drawing from the calculus of someone who has watched the machinery of family breakdown from the inside, who knows what the wreckage looks like, and who has decided that being the next version of that story is not inevitable.</p>
-
-  <p>When he cannot turn off the analysis in rooms that run on feeling, it is not because he has no feelings. It is because the feelings were the thing that got him hurt earliest, and the analysis was the thing that helped him understand why, and understanding why felt like the only form of control available to someone who had very little of any other kind.</p>
-
-  <h2>The Counter-Arguments and Why They Miss</h2>
-
-  <p>There will be people who read this and reach for the following responses. They deserve honest engagement.</p>
-
-  <p>The first is religious. God placed parents in children's lives for a reason. A mother's love is sacred. These experiences, however painful, are part of a larger plan. God restores what was broken.</p>
-
-  <p>This is not wrong exactly. But it is incomplete in a way that matters. Faith does not retroactively remove the developmental impact of early abandonment. A child who was not held does not become neurologically equivalent to a child who was, simply because someone later tells him that God had a plan. The body keeps the score regardless of the theology. What faith can do, genuinely and powerfully, is provide a framework for meaning, a community of people who choose each other, and the resources to do the slow work of healing. But it cannot substitute for that work. And telling a young man that his struggles are just a test, that he simply needs more faith, is the kind of response that sounds right from a distance and lands hollow up close.</p>
-
-  <p>The second counter-argument is therapeutic. You should talk to someone. These patterns can be healed. Therapy works.</p>
-
-  <p>Yes. And also, access to mental health support in Kenya for a 22 year old university student with a deferred first year and a complicated home situation is not a simple thing to arrange. The suggestion is correct in principle. The infrastructure to act on it is thin. This is not an excuse. It is a context.</p>
-
-  <p>The third is social. Not everyone from hard backgrounds ends up this isolated. Some people go through worse and come out more connected. So something specific must be driving this.</p>
-
-  <p>Correct. And that specific thing is the intersection of the particular trauma, the analytical temperament, and the specific environment. A different person with the same history might have gone a different direction. Kurt went this one. Understanding the path is not the same as being trapped on it.</p>
-
-  <h2>What the Conversation Was Really About</h2>
-
-  <p>At some point today a conversation that started with legal principles and research methodology turned into something else entirely.</p>
-
-  <p>The turn happened quietly. It happened when, in the middle of defending a position about a court ruling, something underneath the argument surfaced. Nobody thinks of me first. I keep trying. Friends have left. This has been a long time.</p>
-
-  <p>Those sentences were not about the High Court of Kenya. They were about a boy who learned to lead with his mind because his heart had been returned to him too many times. Who became the person with the answer because the person with the need kept getting left. Who built a formidable way of thinking as a structure that could hold together when the softer things kept falling apart.</p>
-
-  <p>The conversation covered research bias and family economics and Kenyan court rulings and personality typology and career paths and leadership communities. But underneath all of it was a single question that a 22 year old was trying to answer from multiple directions simultaneously.</p>
-
-  <p>Am I okay. Am I enough. Does the way I am make sense. Is there a world where I fit.</p>
-
-  <p>The answer to all four is yes. But the yes needs to be earned through understanding, not just received as reassurance. Because reassurance without understanding is exactly the kind of surface level response that has never been enough for someone who needs to know why before he can believe what.</p>
-
-  <div class="pull">
-    He built a formidable way of thinking as a structure that could hold together when the softer things kept falling apart.
+    <p>While Kurt was trying to make sense of his mother's exit, his father was making sense of his own.</p>
+    <p>His mother had been the breadwinner. When she left, she took the financial stability with her and his father, now alone, found himself in a single room. Not a metaphor. An actual single room, the kind that costs less than dignity and more than pride. The kind that a man moves into when everything he built has been redistributed and he is starting from the floor.</p>
+    <p>This matters for a reason that goes beyond the obvious. Kurt grew up watching what happens to a man who does everything he was supposed to do and still ends up with nothing to show for it. He watched a good man in a bad situation. He watched the machinery of what happens after a marriage ends and a woman moves on and a man is left holding the structural wreckage.</p>
+    <p>There is something that happens to a boy who watches this. He does not become bitter about women necessarily. He becomes careful. He starts doing the math before anyone told him math was the relevant skill.</p>
+    <p>His father took him in. That fact is worth sitting with for a moment. The man with the least, the man in the single room, the man who had just had his life rearranged, made space. That is not a small thing. That is the most important data point in Kurt's life about what men are actually like when the cameras are off and the stakes are real.</p>
   </div>
 
-  <h2>Where This Is Going</h2>
+  <div class="divider"><span class="divider-sym">道</span></div>
 
-  <p>There is a particular image that comes to mind. A tree that grew in difficult soil, that bent under weight it should not have had to carry this early, that developed a root system deeper and more complex than trees that grew in easy ground, precisely because easy ground was never available.</p>
+  <!-- Section 3 -->
+  <div class="section-wrap reveal">
+    <h2>The Year the Ground Stayed Hard <span class="kana">試練の年</span></h2>
 
-  <p>That tree is not broken. It is differently shaped. The shape is the record of what it survived. And the depth of the roots, the ones nobody can see because they are underground, those are what will hold it when the storms come that flatten the trees that grew without resistance.</p>
+    <p>2022. Kurt defers his first year of university. The reason is simple and brutal: he cannot afford the fees.</p>
+    <p>Most of his age mates spent that year in transition. Moving from high school to campus life. Adjusting to freedom. Making new friends. Figuring out who they were going to be now that nobody was watching.</p>
+    <p>Kurt spent that year doing something different.</p>
 
-  <p>Kurt is finishing his third year. Going into fourth. He has a degree that, in his hands specifically, is more than it is in most people's hands. He has a quality of thinking that organisations pay for and cannot easily develop in people who did not earn it the hard way. He has a voice that is distinct and a way of seeing that is rare.</p>
+    <div class="inset">
+      <span class="inset-label">試練 &nbsp;·&nbsp; The Trial</span>
+      <p>Mjengo. Construction sites. The kind of work where you show up before sunrise and your body tells you about it for days after. Then Kakamega. Gold mining. Searching for something valuable in hard ground. Most of what you dig is not gold. Most of what you sift is not what you came for. The work continues anyway. You learn to separate what is precious from what merely looks like it could be.</p>
+    </div>
 
-  <p>He does not yet have his people. The room where his presence is currency rather than friction. The one or two people who receive the person rather than just the output. Those are still ahead of him. They exist. He will recognise them immediately when he finds them because for the first time a conversation will require no effort to sustain and no part of himself will need to be held back.</p>
+    <p>That year taught him something about people that is difficult to learn any other way. When you have nothing to offer that someone wants, when you are not beautiful or wealthy or connected, people stop managing their behavior around you. The performance drops. You see what is actually there.</p>
 
-  <p>The loneliness is real. The pattern of giving without being received is real. The weariness of always trying is real. None of that is performance or self pity. It is the honest cost of carrying a heavy thing in environments not built to receive it.</p>
+    <div class="pull">
+      There is a side of people you see more clearly when you are poor. Transactions become visible. Motives surface faster. People stop performing for you.
+    </div>
 
-  <p>But here is what is also real.</p>
-
-  <p>He is still here. After the year of deferment. After the mjengo. After the gold mining in Kakamega. After a mother who chose differently and a father who made space anyway. After a year of leadership that went largely unrecognised. After the blocks and the drift and the quiet accommodation of people who liked him from a careful distance.</p>
-
-  <p>He is still here. Still thinking. Still following the logic wherever it leads. Still refusing to accept the surface explanation when the deeper one is available. Still, underneath all the careful analysis, hoping that somewhere ahead there is a room where he does not have to choose between being fully himself and being fully received.</p>
-
-  <p>That hope is not naive. It is the most accurate thing about him.</p>
-
-  <h2>A Last Word</h2>
-
-  <p>There is no clean framework for what Kurt has been through. No theory that fully accounts for it. No therapeutic model that wraps it up neatly. No ideology, red pill or blue pill or any other color, that contains the full complexity of a human being shaped by specific losses in a specific country at a specific moment in history.</p>
-
-  <p>What there is, when you strip away all the analysis and the frameworks and the careful intellectual structures, is something much simpler.</p>
-
-  <p>A young man who was not held enough. Who held himself together as a result. Who got very good at thinking and stayed very hungry for connection. Who is now, at 22, starting to understand the shape of what happened to him and asking the right questions about where he goes from here.</p>
-
-  <p>He cannot fully explain how he got here. How he survived the year in Kakamega. How he found the fees eventually. How he kept showing up to a community that never fully received him. How he kept arguing clearly in conversations where people blocked him rather than engaged him. How he kept going when the loneliness was loudest.</p>
-
-  <p>He cannot fully explain it. So he lands, finally, on the only explanation that holds the whole weight of it without collapsing.</p>
-
-  <p>It was God. And the specific people God placed along the way, not many, not loudly, but precisely. The father who made space in a single room. The facilitator who ran a program that named something true. The stranger in a conversation who said keep going when the feeling was to stop. The rare person who stayed long enough to see past the capability to the person underneath it.</p>
-
-  <p>Not a religious conclusion. Just an honest one. Some things are too precisely survivable to be only luck. Some paths through impossible terrain leave evidence of something more than coincidence.</p>
-
-  <p>Kurt is still on the path. The terrain is still hard in places. But the roots go deep now.</p>
-
-  <p>That is enough to keep going.</p>
-
-  <p>And going is enough.</p>
-
-  <div class="section-mark">&middot; &middot; &middot;</div>
-
-  <div class="closing">
-    Written by Kurt Oyaro &middot; Age 22 &middot; Nairobi, Kenya &middot; 2026<br/>
-    Third year, BSc Corporate Communication and Management, JKUAT<br/>
-    This article was written from a single conversation. The conversation was real.
+    <p>What Kurt saw was that most human interaction runs on self interest. Not in a cynical way. Just in a plain factual way. People are mostly trying to get something. Every relationship has an economy underneath it. The people who pretend otherwise are either very lucky or not paying attention.</p>
+    <p>This is not bitterness. This is literacy. And it is the kind of literacy that only comes from being on the wrong side of the transaction long enough to see it clearly.</p>
   </div>
 
-</div>
+  <!-- Section 4 -->
+  <div class="section-wrap reveal">
+    <h2>What Poverty Actually Teaches <span class="kana">貧困の師</span></h2>
+
+    <svg class="section-art" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Bamboo -->
+      <line x1="40" y1="0" x2="40" y2="200" stroke="white" stroke-width="4" opacity="0.5"/>
+      <line x1="60" y1="20" x2="60" y2="200" stroke="white" stroke-width="3" opacity="0.35"/>
+      <line x1="40" y1="40" x2="40" y2="42" stroke="white" stroke-width="6" opacity="0.6"/>
+      <line x1="40" y1="80" x2="40" y2="82" stroke="white" stroke-width="6" opacity="0.6"/>
+      <line x1="40" y1="120" x2="40" y2="122" stroke="white" stroke-width="6" opacity="0.6"/>
+      <line x1="40" y1="160" x2="40" y2="162" stroke="white" stroke-width="6" opacity="0.6"/>
+      <line x1="60" y1="55" x2="60" y2="57" stroke="white" stroke-width="5" opacity="0.4"/>
+      <line x1="60" y1="100" x2="60" y2="102" stroke="white" stroke-width="5" opacity="0.4"/>
+      <line x1="60" y1="145" x2="60" y2="147" stroke="white" stroke-width="5" opacity="0.4"/>
+      <!-- Leaves -->
+      <path d="M40,40 Q20,25 15,10" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <path d="M40,80 Q60,65 70,50" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <path d="M40,120 Q18,108 10,92" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+    </svg>
+
+    <p>There is a popular counter-argument to everything described above. It usually comes from people with good intentions and it goes like this: many people come from difficult backgrounds and do not develop this kind of analytical detachment. Plenty of people from hard beginnings become warm, trusting, open. So the difficult childhood does not explain the particular way this person turned out.</p>
+    <p>This is true and it is also missing the point.</p>
+    <p>Difficult experiences do not produce the same person in everyone. They produce different adaptations depending on what the person was working with to begin with. Someone with a naturally analytical temperament will respond to early abandonment by going deeper into the observation. By turning the analysis inward and outward simultaneously. By building a mind that can explain what just happened so that it never happens the same way again.</p>
+
+    <div class="dark-box">
+      <p>Kurt is the second kind. The poverty, the mjengo, the gold mining, the year of deferment, they did not break him. They enrolled him in a curriculum that most people his age have not taken. The subject was reality.</p>
+    </div>
+
+    <p>And he arrived at university carrying something most of his classmates did not have. Not bitterness. Not damage, at least not only damage. A way of seeing. A habit of looking underneath the surface of things for the structure that produces them. A discomfort with explanations that stop at the level of feeling rather than following the logic all the way down.</p>
+  </div>
+
+  <div class="divider"><span class="divider-sym">孤</span></div>
+
+  <!-- Section 5 -->
+  <div class="section-wrap reveal">
+    <h2>The University That Was Supposed to Be the Reward <span class="kana">報酬の幻想</span></h2>
+
+    <p>JKUAT. Third year. BSc Corporate Communication and Management. By every measurable standard, things are better. There is a roof. There are lectures. There is a future that has a shape, however uncertain.</p>
+    <p>But something does not quite fit.</p>
+    <p>The social environment of campus runs on a particular currency. Belonging. Shared experience. The ability to exist in a group without demanding too much of it. To laugh at the right moments. To agree enough that people feel comfortable. To be, in the language of the campus, a vibe.</p>
+    <p>Kurt is not a vibe. He is something harder to categorise and harder to be around casually. He is the person who follows the logic three steps further than anyone asked him to. Who cannot hear an argument without testing whether it holds. Who finds the gap between what the research says and what the street shows and cannot pretend the gap is not there once he has seen it.</p>
+    <p>He joined a leadership community. Showed up consistently. Did the unglamorous work, the setup, the setdown, the reliable muscle behind the scenes. Spent a year contributing 70 percent of the operational work. Walked away feeling under-appreciated and unrecognised, with colleagues who never became friends despite sharing a year of proximity.</p>
+    <p>The pattern will be familiar by now. He gives fully. The giving lands. The person giving does not.</p>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section-wrap reveal">
+    <h2>The Pattern Underneath the Pattern <span class="kana">型の下の型</span></h2>
+
+    <svg class="section-art left" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Enso circle (Zen) -->
+      <circle cx="50" cy="100" r="40" fill="none" stroke="white" stroke-width="6" stroke-dasharray="220 20" opacity="0.6" stroke-linecap="round"/>
+    </svg>
+
+    <p>Here is what trauma does that nobody explains clearly enough.</p>
+    <p>It does not just hurt you. It teaches you. And what it teaches you is a set of rules that were accurate in the environment where the trauma happened. Rules like: needing things is dangerous. Showing vulnerability gives people something to use. The safest way to stay connected is to be useful, because usefulness is harder to withdraw from than love. Give before you are asked, because waiting to be asked means risking not receiving.</p>
+    <p>These rules kept a younger Kurt safe in situations that genuinely required them. A home where a mother was already emotionally elsewhere. A world where money was scarce and transactions were visible. Environments where being too much meant being left.</p>
+    <p>The problem is that rules learned in one environment do not automatically update when the environment changes. You carry them into university. Into friendships. Into every room where you are trying to figure out whether it is safe to be fully present.</p>
+
+    <div class="pull">
+      The rules that kept you safe in the old environment do not automatically update when the environment changes. You carry them into every new room, looking for evidence that this one is different.
+    </div>
+
+    <p>And people experience that held-back version of you as self sufficiency. As someone who does not need much. As the capable, contained, analytical person who has it together. They file you under the personality type that matches the output rather than the interior.</p>
+    <p>The irony is almost mathematical. The very adaptations that protected him from being abandoned produce a presentation that makes genuine connection harder to find. The armor works so well that even the people who might have stayed cannot find the door.</p>
+  </div>
+
+  <div class="divider"><span class="divider-sym">光</span></div>
+
+  <!-- Section 7 -->
+  <div class="section-wrap reveal">
+    <h2>Why He Thinks the Way He Thinks <span class="kana">洞察の源</span></h2>
+
+    <p>This is the part that surprises people. The part that makes them say ChatGPT when they cannot counter the argument. The part that produces labels like red-pilled and brainwashed when the logic goes somewhere that makes the room uncomfortable.</p>
+    <p>Kurt thinks in systems because systems are what he had to learn to read to survive. When you grow up in environments where the official story and the actual story are consistently different, you develop the capacity to see underneath the official story. When you watch a good man end up in a single room after doing everything right, you start asking what the structure was that produced that outcome rather than just accepting the surface explanation.</p>
+    <p>When he argues that most men are romantics who give everything and lose everything through no fault of their own, he is not speaking abstractly. He watched it. In a single room. In his father's face.</p>
+    <p>When he cannot turn off the analysis in rooms that run on feeling, it is not because he has no feelings. It is because the feelings were the thing that got him hurt earliest, and the analysis was the thing that helped him understand why, and understanding why felt like the only form of control available to someone who had very little of any other kind.</p>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="section-wrap reveal">
+    <h2>Where This Is Going <span class="kana">前進の道</span></h2>
+
+    <svg class="section-art" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Rising sun -->
+      <semicircle/>
+      <path d="M10,140 Q50,80 90,140" fill="none" stroke="white" stroke-width="2" opacity="0.6"/>
+      <line x1="50" y1="140" x2="50" y2="80" stroke="white" stroke-width="1.5" opacity="0.5"/>
+      <line x1="50" y1="80" x2="30" y2="100" stroke="white" stroke-width="1" opacity="0.4"/>
+      <line x1="50" y1="80" x2="70" y2="100" stroke="white" stroke-width="1" opacity="0.4"/>
+      <line x1="50" y1="80" x2="20" y2="80" stroke="white" stroke-width="1" opacity="0.3"/>
+      <line x1="50" y1="80" x2="80" y2="80" stroke="white" stroke-width="1" opacity="0.3"/>
+      <line x1="50" y1="80" x2="35" y2="60" stroke="white" stroke-width="1" opacity="0.3"/>
+      <line x1="50" y1="80" x2="65" y2="60" stroke="white" stroke-width="1" opacity="0.3"/>
+      <circle cx="50" cy="80" r="12" fill="none" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    </svg>
+
+    <p>There is a particular image that comes to mind. A tree that grew in difficult soil, that bent under weight it should not have had to carry this early, that developed a root system deeper and more complex than trees that grew in easy ground, precisely because easy ground was never available.</p>
+    <p>That tree is not broken. It is differently shaped. The shape is the record of what it survived. And the depth of the roots, the ones nobody can see because they are underground, those are what will hold it when the storms come that flatten the trees that grew without resistance.</p>
+    <p>Kurt is finishing his third year. Going into fourth. He has a degree that, in his hands specifically, is more than it is in most people's hands. He has a quality of thinking that organisations pay for and cannot easily develop in people who did not earn it the hard way.</p>
+    <p>He does not yet have his people. The room where his presence is currency rather than friction. Those are still ahead of him. They exist. He will recognise them immediately when he finds them because for the first time a conversation will require no effort to sustain and no part of himself will need to be held back.</p>
+    <p>He is still here. After the year of deferment. After the mjengo. After the gold mining in Kakamega. After a mother who chose differently and a father who made space anyway. After a year of leadership that went largely unrecognised. After the blocks and the drift and the quiet accommodation of people who liked him from a careful distance.</p>
+
+    <div class="pull">
+      He is still here. Still thinking. Still following the logic wherever it leads. Still, underneath all the careful analysis, hoping that somewhere ahead there is a room where he does not have to choose between being fully himself and being fully received.
+    </div>
+  </div>
+
+  <div class="divider"><span class="divider-sym">天</span></div>
+
+  <!-- Closing section -->
+  <div class="closing-section reveal">
+    <div class="closing-kanji">道</div>
+
+    <div class="gold-line" style="animation:none;"></div>
+    <p class="closing-title">A Last Word</p>
+    <p class="closing-body">He cannot fully explain how he got here. How he survived the year in Kakamega. How he found the fees eventually. How he kept going when the loneliness was loudest. He cannot fully explain it. So he lands, finally, on the only explanation that holds the whole weight of it without collapsing.</p>
+
+    <div class="dark-box" style="max-width:520px;margin:2rem auto;">
+      <p>It was God. And the specific people God placed along the way, not many, not loudly, but precisely. The father who made space in a single room. The rare person who stayed long enough to see past the capability to the person underneath it. Some things are too precisely survivable to be only luck.</p>
+    </div>
+
+    <p class="closing-body">Kurt is still on the path. The terrain is still hard in places. But the roots go deep now.</p>
+
+    <p class="closing-title" style="font-size:1.8rem; margin-top:2.5rem;">And going is enough.</p>
+
+    <div class="gold-line" style="animation:none; margin-top:2rem;"></div>
+
+    <div class="closing-meta">
+      Written by Kurt Oyaro &nbsp;&middot;&nbsp; Age 22 &nbsp;&middot;&nbsp; Nairobi, Kenya &nbsp;&middot;&nbsp; 2026<br/>
+      Third year, BSc Corporate Communication and Management, JKUAT<br/>
+      This article was written from a single conversation. The conversation was real.
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ── Generate stars
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 180; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 2.5 + 0.5;
+  const dur = (Math.random() * 4 + 2).toFixed(1);
+  const a1 = (Math.random() * 0.3 + 0.05).toFixed(2);
+  const a2 = (Math.random() * 0.6 + 0.3).toFixed(2);
+  s.style.cssText = `
+    left:${Math.random()*100}%;
+    top:${Math.random()*100}%;
+    width:${size}px;
+    height:${size}px;
+    --d:${dur}s;
+    --a1:${a1};
+    --a2:${a2};
+    animation-delay:${(Math.random()*4).toFixed(1)}s;
+  `;
+  starsEl.appendChild(s);
+}
+
+// ── Generate petals
+const petalsEl = document.getElementById('petals');
+for (let i = 0; i < 18; i++) {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  const dur = (Math.random() * 10 + 6).toFixed(1);
+  const delay = (Math.random() * 12).toFixed(1);
+  p.style.cssText = `
+    left:${Math.random()*100}%;
+    top:-10px;
+    --fd:${dur}s;
+    --fdelay:${delay}s;
+    transform:rotate(${Math.random()*360}deg);
+    width:${Math.random()*6+5}px;
+    height:${Math.random()*6+5}px;
+  `;
+  petalsEl.appendChild(p);
+}
+
+// ── Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+</script>
+
 </body>
 </html>
